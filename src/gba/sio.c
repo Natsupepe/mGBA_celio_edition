@@ -316,6 +316,19 @@ uint16_t GBASIOWriteRegister(struct GBASIO* sio, uint32_t address, uint16_t valu
 			mLOG(GBA_SIO, DEBUG, "MULTI %i write: JOYCNT (?) <- %04X", id, value);
 			value = (value & 0x0040) | (sio->p->memory.io[GBA_REG(JOYCNT)] & ~(value & 0x7) & ~0x0040);
 			break;
+		case GBA_REG_SIOMULTI0:
+			mLOG(GBA_SIO, DEBUG, "MULTI %i write: SIOMULTI0 <- %04X", id, value);
+			break;
+	    case GBA_REG_SIOMULTI1:
+			mLOG(GBA_SIO, DEBUG, "MULTI %i write: SIOMULTI1 <- %04X", id, value);
+			break;
+	    case GBA_REG_SIOMULTI2:
+			mLOG(GBA_SIO, DEBUG, "MULTI %i write: SIOMULTI2 <- %04X", id, value);
+			break;
+	    case GBA_REG_SIOMULTI3:
+			mLOG(GBA_SIO, DEBUG, "MULTI %i write: SIOMULTI3 <- %04X", id, value);
+			break;
+
 		default:
 			mLOG(GBA_SIO, GAME_ERROR, "MULTI %i write: Unhandled %s <- %04X", id, GBAIORegisterNames[address >> 1], value);
 			handled = false;
