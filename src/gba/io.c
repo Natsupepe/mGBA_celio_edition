@@ -500,6 +500,8 @@ void GBAIOWrite(struct GBA* gba, uint32_t address, uint16_t value) {
 	case GBA_REG_JOYSTAT:
 	case GBA_REG_JOY_RECV_LO:
 	case GBA_REG_JOY_RECV_HI:
+	case 0x124:
+	case 0x126:
 		value = GBASIOWriteRegister(&gba->sio, address, value);
 		break;
 

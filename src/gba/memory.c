@@ -1306,7 +1306,8 @@ void GBAPatch16(struct ARMCore* cpu, uint32_t address, int16_t value, int16_t* o
 		STORE_16(value, address & (GBA_SIZE_IWRAM - 2), memory->iwram);
 		break;
 	case GBA_REGION_IO:
-		mLOG(GBA_MEM, STUB, "Unimplemented memory Patch16: 0x%08X", address);
+		LOAD_16(oldValue, address & (GBA_SIZE_IO - 2), memory->io);
+		STORE_16(value, address & (GBA_SIZE_IO - 2), memory->io);
 		break;
 	case GBA_REGION_PALETTE_RAM:
 		LOAD_16(oldValue, address & (GBA_SIZE_PALETTE_RAM - 2), gba->video.palette);
