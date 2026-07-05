@@ -205,6 +205,7 @@ struct mScriptCoreAdapter {
 	struct mScriptValue* rotationCbTable;
 	struct mRotationSource* oldRotation;
 #ifdef M_CORE_GBA
+	struct mSioMask sioMask;
 	struct GBALuminanceSource luminance;
 	struct mScriptValue* luminanceCb;
 	struct GBALuminanceSource* oldLuminance;
@@ -1025,6 +1026,14 @@ static uint64_t _mScriptCoreAdapterCurrentCycle(struct mScriptCoreAdapter* adapt
 }
 #endif
 
+static void _mScriptCoreAdapterSetSioMaster(struct mScriptCoreAdapter* adapter) {
+	adapter->sioMask.mask = 0xFFFB;
+}
+
+static void _mScriptCoreAdapterSetSioSlave(struct mScriptCoreAdapter* adapter) {
+	adapter->sioMask.mask = 0xFFFF;
+}
+
 static void _mScriptCoreAdapterDeinit(struct mScriptCoreAdapter* adapter) {
 	_clearMemoryMap(adapter->context, adapter, false);
 	adapter->memory.type->free(&adapter->memory);
@@ -1181,6 +1190,9 @@ mSCRIPT_DECLARE_STRUCT_METHOD(mScriptCoreAdapter, WSTR, readRange, _mScriptCoreA
 mSCRIPT_DECLARE_STRUCT_VOID_METHOD(mScriptCoreAdapter, write8, _mScriptCoreAdapterWrite8, 2, U32, address, U8, value);
 mSCRIPT_DECLARE_STRUCT_VOID_METHOD(mScriptCoreAdapter, write16, _mScriptCoreAdapterWrite16, 2, U32, address, U16, value);
 mSCRIPT_DECLARE_STRUCT_VOID_METHOD(mScriptCoreAdapter, write32, _mScriptCoreAdapterWrite32, 2, U32, address, U32, value);
+
+mSCRIPT_DECLARE_STRUCT_VOID_METHOD(mScriptCoreAdapter, setSioMaster, _mScriptCoreAdapterSetSioMaster, 0);
+mSCRIPT_DECLARE_STRUCT_VOID_METHOD(mScriptCoreAdapter, setSioSlave, _mScriptCoreAdapterSetSioSlave, 0);
 
 #ifdef ENABLE_DEBUGGERS
 mSCRIPT_DECLARE_STRUCT_METHOD(mScriptCoreAdapter, U64, currentCycle, _mScriptCoreAdapterCurrentCycle, 0);
@@ -1477,9 +1489,11 @@ void mScriptContextAttachCore(struct mScriptContext* context, struct mCore* core
 
 #ifdef M_CORE_GBA
 	adapter->luminance.readLuminance = _readLuminance;
+	adapter->sioMask.mask = 0xFFFF;
 	if (core->platform(core) == mPLATFORM_GBA) {
 		adapter->oldLuminance = core->getPeripheral(core, mPERIPH_GBA_LUMINANCE);
 		core->setPeripheral(core, mPERIPH_GBA_LUMINANCE, &adapter->luminance);
+		core->setPeripheral(core, mPERIPH_SIO_MASK, &adapter->sioMask);
 	}
 #endif
 

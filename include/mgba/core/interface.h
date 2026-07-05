@@ -79,6 +79,7 @@ enum mPeripheral {
 	mPERIPH_ROTATION = 1,
 	mPERIPH_RUMBLE,
 	mPERIPH_IMAGE_SOURCE,
+	mPERIPH_SIO_MASK,
 	mPERIPH_CUSTOM = 0x1000
 };
 
@@ -134,6 +135,10 @@ struct mRumble {
 	void (*reset)(struct mRumble*, bool enable);
 	void (*setRumble)(struct mRumble*, bool enable, uint32_t sinceLast);
 	void (*integrate)(struct mRumble*, uint32_t period);
+};
+
+struct mSioMask {
+	uint16_t mask;
 };
 
 struct mRumbleIntegrator {

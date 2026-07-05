@@ -92,6 +92,8 @@ struct GBA {
 	struct mRumble* rumble;
 	int32_t lastRumble;
 
+	struct mSioMask* sioMask;
+
 	bool isPristine;
 	size_t pristineRomSize;
 	size_t yankedRomSize;
