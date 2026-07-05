@@ -51,6 +51,8 @@ struct mCoreCallbacks {
 	void (*savedataUpdated)(void* context);
 	void (*alarm)(void* context);
 	void (*memoryBlocksChanged)(void* context);
+	void (*timer3IRQ)(void* context);
+	void (*vblankIRQ)(void* context);
 };
 
 DECLARE_VECTOR(mCoreCallbacksList, struct mCoreCallbacks);

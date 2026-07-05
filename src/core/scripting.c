@@ -1441,6 +1441,8 @@ DEFINE_CALLBACK(stop)
 DEFINE_CALLBACK(keysRead)
 DEFINE_CALLBACK(savedataUpdated)
 DEFINE_CALLBACK(alarm)
+DEFINE_CALLBACK(timer3IRQ)
+DEFINE_CALLBACK(vblankIRQ)
 DEFINE_CALLBACK(memoryBlocksChanged,
 	struct mScriptCoreAdapter* adapter = _getAdapter(scriptContext);
 	if (adapter) {
@@ -1490,6 +1492,8 @@ void mScriptContextAttachCore(struct mScriptContext* context, struct mCore* core
 		.savedataUpdated = mCoreCallback(savedataUpdated),
 		.alarm = mCoreCallback(alarm),
 		.memoryBlocksChanged = mCoreCallback(memoryBlocksChanged),
+		.timer3IRQ = mCoreCallback(timer3IRQ),
+		.vblankIRQ = mCoreCallback(vblankIRQ),
 		.context = context
 	};
 	core->addCoreCallbacks(core, &callbacks);

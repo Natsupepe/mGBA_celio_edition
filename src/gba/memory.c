@@ -1306,8 +1306,14 @@ void GBAPatch16(struct ARMCore* cpu, uint32_t address, int16_t value, int16_t* o
 		STORE_16(value, address & (GBA_SIZE_IWRAM - 2), memory->iwram);
 		break;
 	case GBA_REGION_IO:
-		LOAD_16(oldValue, address & (GBA_SIZE_IO - 2), memory->io);
-		STORE_16(value, address & (GBA_SIZE_IO - 2), memory->io);
+		if (address == 0x400010E) {
+			GBAIOWrite(gba, GBA_REG_TM3CNT_HI, value);
+		} else if (address == 0x400010C) {
+			GBAIOWrite(gba, GBA_REG_TM3CNT_LO, value);
+		} else {
+			LOAD_16(oldValue, address & (GBA_SIZE_IO - 2), memory->io);
+			STORE_16(value, address & (GBA_SIZE_IO - 2), memory->io);
+		}
 		break;
 	case GBA_REGION_PALETTE_RAM:
 		LOAD_16(oldValue, address & (GBA_SIZE_PALETTE_RAM - 2), gba->video.palette);
