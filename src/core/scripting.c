@@ -1260,6 +1260,8 @@ mSCRIPT_DEFINE_STRUCT(mScriptCoreAdapter)
 	mSCRIPT_DEFINE_STRUCT_METHOD(mScriptCoreAdapter, write8)
 	mSCRIPT_DEFINE_STRUCT_METHOD(mScriptCoreAdapter, write16)
 	mSCRIPT_DEFINE_STRUCT_METHOD(mScriptCoreAdapter, write32)
+	mSCRIPT_DEFINE_STRUCT_METHOD(mScriptCoreAdapter, setSioSlave)
+	mSCRIPT_DEFINE_STRUCT_METHOD(mScriptCoreAdapter, setSioMaster)
 #ifdef ENABLE_DEBUGGERS
 	mSCRIPT_DEFINE_DOCSTRING("Get the current execution cycle")
 	mSCRIPT_DEFINE_STRUCT_METHOD(mScriptCoreAdapter, currentCycle)
