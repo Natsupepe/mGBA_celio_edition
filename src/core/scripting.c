@@ -206,6 +206,7 @@ struct mScriptCoreAdapter {
 	struct mRotationSource* oldRotation;
 #ifdef M_CORE_GBA
 	struct mSioMask sioMask;
+	struct mOldSioMask* oldSioMask;
 	struct GBALuminanceSource luminance;
 	struct mScriptValue* luminanceCb;
 	struct GBALuminanceSource* oldLuminance;
@@ -1027,11 +1028,11 @@ static uint64_t _mScriptCoreAdapterCurrentCycle(struct mScriptCoreAdapter* adapt
 #endif
 
 static void _mScriptCoreAdapterSetSioMaster(struct mScriptCoreAdapter* adapter) {
-	adapter->sioMask.mask = 0xFFFB;
+	adapter->sioMask.mask = 0x600B;
 }
 
 static void _mScriptCoreAdapterSetSioSlave(struct mScriptCoreAdapter* adapter) {
-	adapter->sioMask.mask = 0xFFFF;
+	adapter->sioMask.mask = 0x601F;
 }
 
 static void _mScriptCoreAdapterDeinit(struct mScriptCoreAdapter* adapter) {
@@ -1495,6 +1496,8 @@ void mScriptContextAttachCore(struct mScriptContext* context, struct mCore* core
 	if (core->platform(core) == mPLATFORM_GBA) {
 		adapter->oldLuminance = core->getPeripheral(core, mPERIPH_GBA_LUMINANCE);
 		core->setPeripheral(core, mPERIPH_GBA_LUMINANCE, &adapter->luminance);
+
+		adapter->oldSioMask = core->getPeripheral(core, mPERIPH_SIO_MASK);
 		core->setPeripheral(core, mPERIPH_SIO_MASK, &adapter->sioMask);
 	}
 #endif
@@ -1536,6 +1539,7 @@ void mScriptContextDetachCore(struct mScriptContext* context) {
 #ifdef M_CORE_GBA
 	if (core->platform(core) == mPLATFORM_GBA) {
 		core->setPeripheral(core, mPERIPH_GBA_LUMINANCE, adapter->oldLuminance);
+		core->setPeripheral(core, mPERIPH_SIO_MASK, adapter->oldSioMask);
 	}
 	if (adapter->luminanceCb) {
 		mScriptValueDeref(adapter->luminanceCb);
