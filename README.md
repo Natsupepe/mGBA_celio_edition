@@ -1,3 +1,16 @@
+> **About this branch (`rom64`)**
+>
+> This is [mGBA celio edition](https://github.com/Exormeter/mGBA_celio_edition) 2.0.0 with support for 64MiB ROMs.
+>
+> - When a ROM of exactly 64MiB is loaded, its second half is mapped at `0x0A000000`-`0x0BFFFFFF`.
+>   `0x08000000`-`0x09FFFFFF` and `0x0C000000`-`0x0DFFFFFF` still see the first 32MiB.
+> - ROMs of 32MiB or less behave as before.
+> - The reported git commit can be overridden with the `MGBA_GIT_COMMIT` environment variable at build time,
+>   so that Celio-mGBA-Link (which checks the commit of celio edition 2.0.0) keeps working.
+> - Games that use the second half of a 64MiB ROM only work on this build; other emulators and real hardware cannot read it.
+>
+> See [readme.txt](readme.txt) (Japanese) for usage notes. License: MPL-2.0, same as mGBA.
+
 mGBA
 ====
 
