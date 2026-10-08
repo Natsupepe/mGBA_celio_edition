@@ -25,7 +25,9 @@ jobs:
             -DBUILD_LIBRETRO=ON -DBUILD_SDL=OFF -DBUILD_QT=OFF \
             -DBUILD_PYTHON=OFF -DBUILD_TESTS=OFF -DENABLE_UPDATER=OFF
       - name: Compile
-        run: cmake --build build-android --target mgba_libretro --verbose -j 2
+        run: |
+          cat build-android/CMakeFiles/mgba_libretro.dir/link.txt || true
+          cmake --build build-android --target mgba_libretro --verbose -j 2
       - name: Verify
         run: |
           file build-android/mgba_libretro.so
